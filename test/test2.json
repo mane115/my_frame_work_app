@@ -1,0 +1,29 @@
+{
+  "firstname": "John",
+  "lastname": "Doe",
+  "age": 32,
+  "position": "CEO",
+  "company": "Google",
+  "interests": [
+    "swimming",
+    "music",
+    "JavaScript",
+    "iMac",
+    "iOS apps",
+    "sport"
+  ],
+  "projects": [
+    {
+      "title": "Google",
+      "description": "Nice search engine"
+    },
+    {
+      "title": "YouTube",
+      "description": "Online video service"
+    },
+    {
+      "title": "Android",
+      "description": "Mobile operating system"
+    }
+  ]
+}
