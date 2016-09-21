@@ -1,0 +1,46 @@
+<div class="navbar">
+    <div class="navbar-inner">
+        <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><span>Back</span></a>
+        </div>
+        <div class="center sliding">My Cars</div>
+        <div class="right"><a href="#" class="link icon-only open-panel"> <i class="icon icon-bars"></i></a></div>
+    </div>
+</div>
+<div class="pages">
+    <div data-page="bus" class="page">
+        <div class="page-content">
+            <div class="content-block-title">18路</div>
+            <div class="list-block">
+                <ul>{{#each get18Bus}}
+                    <li>
+                        <a class="item-content item-link" data-context-name="bus.{{@index}}">
+                            <div class="item-inner">
+                                <div class="item-title">{{CurrentStation}} {{BusNumber}}</div>
+                            </div>
+                        </a>
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
+            <div class="content-block-title">68路</div>
+            <div class="list-block">
+                <ul>{{#each get68Bus}}
+                    <li>
+                        <a class="item-content item-link" data-context-name="bus.{{@index}}">
+                            <div class="item-inner">
+                                <div class="item-title">{{CurrentStation}} {{BusNumber}}</div>
+                            </div>
+                        </a>
+                    </li>
+                    {{/each}}
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

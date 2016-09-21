@@ -3,7 +3,8 @@ Template7.registerHelper('json_stringify', function (context) {
     return JSON.stringify(context);
 });
 //var baseUrl = 'http://192.168.1.101:3001';
-var baseUrl = 'http://127.0.0.1:3001';
+//var baseUrl = 'http://127.0.0.1:3001';
+var baseUrl = 'http://10.0.1.106:3002';
 
 var $$ = Dom7;
 // Initialize your app
@@ -26,55 +27,18 @@ var myApp = new Framework7({
             req = baseUrl + '/test/test1.json';
         } else if (url === 'contacts.html') {
             req = baseUrl + '/test/test3.json';
+        } else if (url === 'bus.html') {
+            req = baseUrl + '/bus';
         }
-        $$.getJSON(req, function (data) {
-            console.log(data);
+        $$.get(req, function (data) {
+            if (typeof data === 'string') data = JSON.parse(data);
             var resultContent = template(data);
             next(resultContent)
         });
     },
     template7Data: {
         // Will be applied for page with "projects.html" url
-        'url:projects.html': {
-            firstname: 'John',
-            lastname: 'Doe',
-            age: 32,
-            position: 'CEO',
-            company: 'Google',
-            interests: ['swimming', 'music', 'JavaScript', 'iMac', 'iOS apps', 'sport'],
-            projects: [
-                {
-                    title: 'Google',
-                    description: 'Nice search engine'
-                },
-                {
-                    title: 'YouTube',
-                    description: 'Online video service'
-                },
-                {
-                    title: 'Android',
-                    description: 'Mobile operating system'
-                }
-            ]
-        },
 
-        // Will be applied for page with data-page="contacts"
-        'page:contacts': {
-            tel: '+1 (222) 333-44-55',
-            email: 'john@doe.com',
-            country: 'USA',
-            city: 'San Francisco',
-            zip: '12345',
-            street: 'Awesome st'
-        },
-        // Another plain data object, used in "about" link in data-contextName object
-        about: {
-            name: 'John Doe',
-            age: 32,
-            position: 'CEO',
-            company: 'Google',
-            interests: ['swimming', 'music', 'JavaScript', 'iMac', 'iOS apps', 'sport']
-        }
     }
 });
 myApp.onPageInit('index', function (page) {
@@ -82,7 +46,7 @@ myApp.onPageInit('index', function (page) {
     date.setHours = 10;
     var clock = function () {
         var date = new Date();
-        var time = date.toLocaleString();
+        var time = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
         $$('.content-block-title a').text(time)
     };
     var initTimeStatus = function () {
@@ -94,12 +58,22 @@ myApp.onPageInit('index', function (page) {
         else if (hours > 18 && hours <= 22) status = '下班！';
         else status = '没车啦！';
         console.log(hours, status);
-        $$('.time-status').text(status)
+        $$('.time-status').text(status);
+    };
+    var initBusStation = function () {
+        $$.get(baseUrl + '/work', function (data) {
+            if (data && data.toString() === 'none') return $('.index-bus-station').text('无');
+            if (typeof data === 'string') data = JSON.parse(data);
+            $$('.index-bus-station').text(data.CurrentStation);
+            $$('.index-bus-distance').text(data.distance + '个站');
+            $$('.index-bus-no').text(data.BusNumber)
+        });
     };
     clock();
     initTimeStatus();
+    initBusStation();
     setInterval(clock, 500);
-
+    var stationClock = setInterval(initBusStation, 10000);
 });
 // Add main View
 var mainView = myApp.addView('.view-main', {
